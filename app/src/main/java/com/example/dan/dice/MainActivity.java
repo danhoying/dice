@@ -3,12 +3,14 @@ package com.example.dan.dice;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     TextView textView;
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,23 +18,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textView = (TextView) findViewById(R.id.textView);
+        button = (Button) findViewById(R.id.button);
+
+        View.OnClickListener ourOnClickListener = new View.OnClickListener() {
+            public void onClick(View view) {
+                Random random = new Random();
+                String message = "continue";
+
+                textView.setText("");
+
+                while (message.equals("continue")) {
+                    int numberA = random.nextInt(6) + 1;
+                    int numberB = random.nextInt(6) + 1;
+                    int total = numberA + numberB;
+                    message = getMessage(total);
+                    textView.append(numberA + " + " + numberB + " = " + total + " " + message + "\n");
+                }
+            }
+        };
+        button.setOnClickListener(ourOnClickListener);
     }
 
-    public void onButtonClick(View view) {
-        Random random = new Random();
-        String message = "continue";
 
-        textView.setText("");
 
-        while (message.equals("continue")) {
-            int numberA = random.nextInt(6) + 1;
-            int numberB = random.nextInt(6) + 1;
-            int total = numberA + numberB;
-            message = getMessage(total);
-            textView.append(numberA + " + " + numberB + " = " + total +
-                                                        " " + message + "\n");
-        }
-    }
 
     String getMessage(int total) {
         switch (total) {
