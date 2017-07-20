@@ -11,6 +11,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     TextView textView;
     Button button;
+    Button button2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,12 +20,12 @@ public class MainActivity extends AppCompatActivity {
 
         textView = (TextView) findViewById(R.id.textView);
         button = (Button) findViewById(R.id.button);
+        button2 = (Button) findViewById(R.id.button2);
 
         View.OnClickListener ourOnClickListener = new View.OnClickListener() {
             public void onClick(View view) {
                 Random random = new Random();
                 String message = "continue";
-
                 textView.setText("");
 
                 while (message.equals("continue")) {
@@ -38,10 +39,6 @@ public class MainActivity extends AppCompatActivity {
         };
         button.setOnClickListener(ourOnClickListener);
     }
-
-
-
-
     String getMessage(int total) {
         switch (total) {
             case 7:
