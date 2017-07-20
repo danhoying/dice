@@ -24,20 +24,17 @@ public class MainActivity extends AppCompatActivity {
 
         View.OnClickListener ourOnClickListener = new View.OnClickListener() {
             public void onClick(View view) {
-                Random random = new Random();
-                String message = "continue";
                 textView.setText("");
-
-                while (message.equals("continue")) {
-                    int numberA = random.nextInt(6) + 1;
-                    int numberB = random.nextInt(6) + 1;
-                    int total = numberA + numberB;
-                    message = getMessage(total);
-                    textView.append(numberA + " + " + numberB + " = " + total + " " + message + "\n");
-                }
             }
         };
         button.setOnClickListener(ourOnClickListener);
+
+        View.OnClickListener rollOnClickListener = new View.OnClickListener() {
+            public void onClick(View view) {
+                displayTotal();
+            }
+        };
+        button2.setOnClickListener(rollOnClickListener);
     }
     String getMessage(int total) {
         switch (total) {
@@ -59,4 +56,24 @@ public class MainActivity extends AppCompatActivity {
                 return "not a valid dice roll";
         }
     }
+
+    public void displayTotal() {
+        String message = "";
+        Random random = new Random();
+        while (!message.equals("win")) {
+            int numberA = random.nextInt(6) + 1;
+            int numberB = random.nextInt(6) + 1;
+            int total = numberA + numberB;
+            message = getMessage(total);
+            if (message.equals("continue")) {
+                textView.append(numberA + " + " + numberB + " = " + total + " " + message + "\n");
+            } else if (message.equals("win")) {
+                textView.append(numberA + " + " + numberB + " = " + total + " " + "You Win" + "\n");
+            } else if (message.equals("lose")) {
+                textView.append(numberA + " + " + numberB + " = " + total + " " + "You Lose" + "\n");
+                break;
+            }
+        }
+    }
 }
+
