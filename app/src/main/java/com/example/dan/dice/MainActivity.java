@@ -22,20 +22,21 @@ public class MainActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.button);
         button2 = (Button) findViewById(R.id.button2);
 
-        View.OnClickListener ourOnClickListener = new View.OnClickListener() {
-            public void onClick(View view) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 textView.setText("");
             }
-        };
-        button.setOnClickListener(ourOnClickListener);
+        });
 
-        View.OnClickListener rollOnClickListener = new View.OnClickListener() {
-            public void onClick(View view) {
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 displayTotal();
             }
-        };
-        button2.setOnClickListener(rollOnClickListener);
+        });
     }
+
     String getMessage(int total) {
         switch (total) {
             case 7:
@@ -60,20 +61,23 @@ public class MainActivity extends AppCompatActivity {
     public void displayTotal() {
         String message = "";
         Random random = new Random();
+        label:
         while (!message.equals("win")) {
             int numberA = random.nextInt(6) + 1;
             int numberB = random.nextInt(6) + 1;
             int total = numberA + numberB;
             message = getMessage(total);
-            if (message.equals("continue")) {
-                textView.append(numberA + " + " + numberB + " = " + total + " " + message + "\n");
-            } else if (message.equals("win")) {
-                textView.append(numberA + " + " + numberB + " = " + total + " " + "You Win" + "\n");
-            } else if (message.equals("lose")) {
-                textView.append(numberA + " + " + numberB + " = " + total + " " + "You Lose" + "\n");
-                break;
+            switch (message) {
+                case "continue":
+                    textView.append(numberA + " + " + numberB + " = " + total + " " + message + "\n");
+                    break;
+                case "win":
+                    textView.append(numberA + " + " + numberB + " = " + total + " " + "You Win" + "\n");
+                    break;
+                case "lose":
+                    textView.append(numberA + " + " + numberB + " = " + total + " " + "You Lose" + "\n");
+                    break label;
             }
         }
     }
 }
-
