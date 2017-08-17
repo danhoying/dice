@@ -11,7 +11,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     TextView textView;
     Button button;
-    Button button2;
+    boolean gameOver = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,19 +20,18 @@ public class MainActivity extends AppCompatActivity {
 
         textView = (TextView) findViewById(R.id.textView);
         button = (Button) findViewById(R.id.button);
-        button2 = (Button) findViewById(R.id.button2);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setText("");
-            }
-        });
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayTotal();
+                if (gameOver) {
+                    textView.setText("");
+                    gameOver = false;
+                    button.setText("Roll");
+                    displayTotal();
+                } else {
+                    displayTotal();
+                }
             }
         });
     }
@@ -59,25 +58,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displayTotal() {
-        String message = "";
         Random random = new Random();
-        label:
-        while (!message.equals("win")) {
-            int numberA = random.nextInt(6) + 1;
-            int numberB = random.nextInt(6) + 1;
-            int total = numberA + numberB;
-            message = getMessage(total);
-            switch (message) {
-                case "continue":
-                    textView.append(numberA + " + " + numberB + " = " + total + " " + message + "\n");
-                    break;
-                case "win":
-                    textView.append(numberA + " + " + numberB + " = " + total + " " + "You Win" + "\n");
-                    break;
-                case "lose":
-                    textView.append(numberA + " + " + numberB + " = " + total + " " + "You Lose" + "\n");
-                    break label;
-            }
+        int numberA = random.nextInt(6) + 1;
+        int numberB = random.nextInt(6) + 1;
+        int total = numberA + numberB;
+
+        String message = getMessage(total);
+        switch (message) {
+            case "continue":
+                textView.append(numberA + " + " + numberB + " = " + total + "     " + "Continue" + "\n");
+                break;
+            case "win":
+                textView.append(numberA + " + " + numberB + " = " + total + "     " + "You Win" + "\n");
+                gameOver = true;
+                button.setText("Restart");
+                break;
+            case "lose":
+                textView.append(numberA + " + " + numberB + " = " + total + "     " + "You Lose" + "\n");
+                gameOver = true;
+                button.setText("Restart");
+                break;
         }
     }
 }
